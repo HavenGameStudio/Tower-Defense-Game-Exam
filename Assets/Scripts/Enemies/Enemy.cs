@@ -24,11 +24,11 @@ namespace TowerDefense.Enemies
 
         public void Initialize(EnemyData data, Transform target)
         {
-            Data    = data;
+            Data = data;
             _target = target;
 
-            _currentHealth   = data.maxHealth;
-            _spriteRenderer  = GetComponentInChildren<SpriteRenderer>();
+            _currentHealth = data.maxHealth;
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
             if (_spriteRenderer != null)
                 _originalColor = _spriteRenderer.color;
@@ -92,41 +92,30 @@ namespace TowerDefense.Enemies
             {
                 var vfx = PoolManager.Instance.Get("DeathVFX");
                 if (vfx != null)
-                {
                     vfx.transform.position = transform.position;
-                    // Auto-return after clip length
-                    StartCoroutine(ReturnVFXToPool(vfx, 2f));
-                }
+                // VFXAutoReturn component handles returning to pool
             }
 
             GameManager.Instance?.RegisterKill(Data.scoreValue);
             OnDeath?.Invoke(this);
-
-            // Return to pool instead of Destroy
             GetComponent<ObjectToPool>()?.ReturnToPool();
         }
 
-        private System.Collections.IEnumerator ReturnVFXToPool(ObjectToPool vfx, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            vfx.ReturnToPool();
-        }
-
-// Called by EnemySpawner after Get() to reset state
+        // Called by EnemySpawner after Get() to reset state
         public void ResetState(EnemyData data, Transform target)
         {
-            IsDead         = false;
-            Data           = data;
-            _target        = target;
+            IsDead = false;
+            Data = data;
+            _target = target;
             _currentHealth = data.maxHealth;
 
 
             if (_spriteRenderer == null)
             {
-                _spriteRenderer  = GetComponentInChildren<SpriteRenderer>();
+                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
                 _originalColor = _spriteRenderer.color;
             }
-                
+
             _spriteRenderer.color = _originalColor;
         }
 
@@ -135,14 +124,12 @@ namespace TowerDefense.Enemies
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player")) return;
-            
+
             var target = other.GetComponent<IDamageable>();
             if (target == null || target.IsDead) return;
 
             target.TakeDamage(Data.damage);
             Die();
         }
-
-        
     }
 }

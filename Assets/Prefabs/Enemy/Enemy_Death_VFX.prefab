@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5328190715540400666}
   - component: {fileID: 7169158956103086429}
   - component: {fileID: 4911162310073632652}
+  - component: {fileID: -8688076770861293969}
   m_Layer: 0
   m_Name: Enemy_Death_VFX
   m_TagString: Untagged
@@ -44,7 +45,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 1
+  stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -4907,3 +4908,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2add67b6f0c34b0b91db5d989715ef45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerDefense.Core.ObjectToPool
+--- !u!114 &-8688076770861293969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3195599145901544641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0dceeb14a145309491689a1fe53293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerDefense.Core.VFXAutoReturn
