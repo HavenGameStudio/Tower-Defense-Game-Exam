@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 using TowerDefense.Combat;
+using TowerDefense.Core;
+using UnityEngine.EventSystems;
 
 namespace TowerDefense.Enemies
 {
     [RequireComponent(typeof(Collider2D))]
-    public class Enemy : MonoBehaviour, IDamageable
+    public class Enemy : MonoBehaviour, IDamageable, IPointerClickHandler
     {
         public event Action<Enemy> OnDeath;
 
@@ -61,9 +63,9 @@ namespace TowerDefense.Enemies
 
         // ── Click to Damage ─────────────────────────────────────────────────
 
-        private void OnMouseDown()
+        public void OnPointerClick(PointerEventData eventData)
         {
-            TakeDamage(25f);
+            TakeDamage(25);
         }
 
         // ── VFX ─────────────────────────────────────────────────────────────
@@ -91,6 +93,9 @@ namespace TowerDefense.Enemies
             if (Data.deathVFXPrefab != null)
                 Destroy(Instantiate(Data.deathVFXPrefab, transform.position, Quaternion.identity), 2f);
 
+            // Report kill to GameManager for scoring
+            GameManager.Instance?.RegisterKill(Data.scoreValue);
+
             OnDeath?.Invoke(this);
             Destroy(gameObject);
         }
@@ -107,5 +112,7 @@ namespace TowerDefense.Enemies
             target.TakeDamage(Data.damage);
             Die();
         }
+
+        
     }
 }
