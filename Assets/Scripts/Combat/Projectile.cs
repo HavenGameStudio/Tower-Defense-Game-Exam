@@ -1,3 +1,4 @@
+using TowerDefense.Core;
 using UnityEngine;
 
 namespace TowerDefense.Combat
@@ -13,7 +14,11 @@ namespace TowerDefense.Combat
 
         // ── Init ────────────────────────────────────────────────────────────
 
-        public void Initialize(IDamageable target, float damage, float speed,
+        /// <summary>
+        /// Called every time this projectile is retrieved from the pool.
+        /// Resets all state so recycled projectiles behave like fresh ones.
+        /// </summary>
+        public void ResetState(IDamageable target, float damage, float speed,
                                bool isAOE = false, float aoeRadius = 0f,
                                LayerMask enemyLayer = default)
         {
@@ -29,10 +34,9 @@ namespace TowerDefense.Combat
 
         private void Update()
         {
-            // Target died before we arrived — destroy self cleanly
             if (_target == null || _target.IsDead)
             {
-                Destroy(gameObject);
+                GetComponent<ObjectToPool>()?.ReturnToPool();
                 return;
             }
 
@@ -60,8 +64,6 @@ namespace TowerDefense.Combat
             var dir   = (targetPosition - transform.position).normalized;
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
-            // -90 offset assumes your arrow sprite points UP by default
-            // change to angle if your sprite points RIGHT
         }
 
         private bool HasReachedTarget(Vector3 targetPosition)
@@ -78,15 +80,13 @@ namespace TowerDefense.Combat
             else
                 _target.TakeDamage(_damage);
 
-            Destroy(gameObject);
+            GetComponent<ObjectToPool>()?.ReturnToPool();
         }
 
         private void DealAOEDamage(Vector3 impactPosition)
         {
-            // Primary target takes full damage
             _target.TakeDamage(_damage);
 
-            // Splash — half damage to nearby enemies
             var hits = Physics2D.OverlapCircleAll(impactPosition, _aoeRadius, _enemyLayer);
             foreach (var hit in hits)
             {

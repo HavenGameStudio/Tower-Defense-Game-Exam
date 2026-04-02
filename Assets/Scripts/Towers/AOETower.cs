@@ -1,29 +1,27 @@
 using UnityEngine;
 using TowerDefense.Combat;
+using TowerDefense.Core;
 
 namespace TowerDefense.Towers
 {
     public class AOETower : Tower
     {
         [Header("Projectile")]
-        [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private string projectilePoolKey = "Projectile";
         [SerializeField] private float projectileSpeed = 8f;
 
         protected override void Fire(IDamageable primaryTarget)
         {
-            if (projectilePrefab == null) return;
+            var pooled = PoolManager.Instance.Get(projectilePoolKey);
+            if (pooled == null) return;
 
-            var go         = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            var projectile = go.GetComponent<Projectile>();
+            pooled.transform.position = transform.position;
+            pooled.transform.rotation = Quaternion.identity;
 
-            if (projectile == null)
-            {
-                Debug.LogError("Projectile prefab is missing a Projectile component.");
-                Destroy(go);
-                return;
-            }
+            var projectile = pooled.GetComponent<Projectile>();
+            if (projectile == null) return;
 
-            projectile.Initialize(
+            projectile.ResetState(
                 target:     primaryTarget,
                 damage:     data.damage,
                 speed:      projectileSpeed,

@@ -86,18 +86,51 @@ namespace TowerDefense.Enemies
             _spriteRenderer.color = _originalColor;
         }
 
+        // Add to top of Die()
         private void Die()
         {
             IsDead = true;
 
             if (Data.deathVFXPrefab != null)
-                Destroy(Instantiate(Data.deathVFXPrefab, transform.position, Quaternion.identity), 2f);
+            {
+                var vfx = PoolManager.Instance.Get("DeathVFX");
+                if (vfx != null)
+                {
+                    vfx.transform.position = transform.position;
+                    // Auto-return after clip length
+                    StartCoroutine(ReturnVFXToPool(vfx, 2f));
+                }
+            }
 
-            // Report kill to GameManager for scoring
             GameManager.Instance?.RegisterKill(Data.scoreValue);
-
             OnDeath?.Invoke(this);
-            Destroy(gameObject);
+
+            // Return to pool instead of Destroy
+            GetComponent<ObjectToPool>()?.ReturnToPool();
+        }
+
+        private System.Collections.IEnumerator ReturnVFXToPool(ObjectToPool vfx, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            vfx.ReturnToPool();
+        }
+
+// Called by EnemySpawner after Get() to reset state
+        public void ResetState(EnemyData data, Transform target)
+        {
+            IsDead         = false;
+            Data           = data;
+            _target        = target;
+            _currentHealth = data.maxHealth;
+
+
+            if (_spriteRenderer == null)
+            {
+                _spriteRenderer  = GetComponentInChildren<SpriteRenderer>();
+                _originalColor = _spriteRenderer.color;
+            }
+                
+            _spriteRenderer.color = _originalColor;
         }
 
         // ── Arrival ─────────────────────────────────────────────────────────

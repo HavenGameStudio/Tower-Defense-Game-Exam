@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 2872566597118024428}
   - component: {fileID: 5037593677794007412}
   - component: {fileID: 4098995121493943831}
+  - component: {fileID: -6327450668110721081}
   m_Layer: 6
   m_Name: Enemy_Basic
   m_TagString: Untagged
@@ -201,3 +202,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &-6327450668110721081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3305746435335394666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2add67b6f0c34b0b91db5d989715ef45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerDefense.Core.ObjectToPool

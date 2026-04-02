@@ -19,5 +19,8 @@ namespace TowerDefense.Enemies
         
         [Header("Prefab")]
         public GameObject enemyPrefab;
+        
+        [Header("Pooling")]
+        public string poolKey; // e.g. "Enemy_Basic", "Enemy_Tank"
     }
 }
