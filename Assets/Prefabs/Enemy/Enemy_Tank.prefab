@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 1442155171282545186}
   - component: {fileID: 4277779854785506664}
   - component: {fileID: 8276459184651908023}
+  - component: {fileID: 5353217751217432638}
   m_Layer: 6
   m_Name: Enemy_Tank
   m_TagString: Untagged
@@ -211,3 +212,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &5353217751217432638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310425086109682034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2add67b6f0c34b0b91db5d989715ef45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerDefense.Core.ObjectToPool

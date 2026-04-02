@@ -17,5 +17,6 @@ MonoBehaviour:
   moveSpeed: 4
   scoreValue: 10
   hitVFXPrefab: {fileID: 0}
-  deathVFXPrefab: {fileID: 0}
+  deathVFXPrefab: {fileID: 3195599145901544641, guid: 9c8e3710643bf5348bbe4851436219dc, type: 3}
   enemyPrefab: {fileID: 3305746435335394666, guid: 2d0c102df8f9a4b4691e7a410672e0b1, type: 3}
+  poolKey: Enemy_Basic

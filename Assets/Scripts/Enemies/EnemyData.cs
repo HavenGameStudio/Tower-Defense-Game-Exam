@@ -14,10 +14,12 @@ namespace TowerDefense.Enemies
         public int scoreValue = 10;
 
         [Header("Visuals")]
-        public GameObject hitVFXPrefab;
         public GameObject deathVFXPrefab;
         
         [Header("Prefab")]
         public GameObject enemyPrefab;
+        
+        [Header("Pooling")]
+        public string poolKey; // e.g. "Enemy_Basic", "Enemy_Tank"
     }
 }

@@ -1,3 +1,4 @@
+using TowerDefense.Core;
 using UnityEngine;
 
 namespace TowerDefense.Enemies
@@ -25,7 +26,7 @@ namespace TowerDefense.Enemies
             if (_timer >= spawnInterval)
             {
                 _timer = 0f;
-                SpawnEnemy();
+                SpawnFromData(enemyTypes[Random.Range(0, enemyTypes.Length)]);
             }
         }
 
@@ -44,6 +45,18 @@ namespace TowerDefense.Enemies
             }
 
             enemy.Initialize(data, target);
+        }
+        
+        private void SpawnFromData(EnemyData data)
+        {
+            var pooled = PoolManager.Instance.Get(data.poolKey);
+            if (pooled == null) return;
+
+            var enemy = pooled.GetComponent<Enemy>();
+            if (enemy == null) return;
+
+            pooled.transform.position = spawnPoint.position;
+            enemy.ResetState(data, target);
         }
     }
 }

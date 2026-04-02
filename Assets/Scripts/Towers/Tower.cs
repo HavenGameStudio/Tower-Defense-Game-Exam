@@ -9,7 +9,7 @@ namespace TowerDefense.Towers
         [Header("Config")] 
         [SerializeField] protected TowerData data;
         
-        [SerializeField] protected LayerMask enemyLayer;
+        [SerializeField] protected  LayerMask enemyLayer;
 
         private float _fireCooldown;
 
