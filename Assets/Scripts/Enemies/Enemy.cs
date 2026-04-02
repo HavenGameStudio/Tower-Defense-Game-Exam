@@ -74,9 +74,6 @@ namespace TowerDefense.Enemies
         {
             if (_spriteRenderer != null)
                 StartCoroutine(HitFlash());
-
-            if (Data.hitVFXPrefab != null)
-                Destroy(Instantiate(Data.hitVFXPrefab, transform.position, Quaternion.identity), 2f);
         }
 
         private IEnumerator HitFlash()

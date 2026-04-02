@@ -14,7 +14,6 @@ namespace TowerDefense.Enemies
         public int scoreValue = 10;
 
         [Header("Visuals")]
-        public GameObject hitVFXPrefab;
         public GameObject deathVFXPrefab;
         
         [Header("Prefab")]
