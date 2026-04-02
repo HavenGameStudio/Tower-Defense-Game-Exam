@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f359a4189fa64241b7a2e43ce91934a3, type: 3}
+  m_Name: EnemyData_Basic
+  m_EditorClassIdentifier: Assembly-CSharp::TowerDefense.Enemies.EnemyData
+  maxHealth: 60
+  damage: 10
+  moveSpeed: 4
+  scoreValue: 10
+  hitVFXPrefab: {fileID: 0}
+  deathVFXPrefab: {fileID: 3195599145901544641, guid: 9c8e3710643bf5348bbe4851436219dc, type: 3}
+  enemyPrefab: {fileID: 3305746435335394666, guid: 2d0c102df8f9a4b4691e7a410672e0b1, type: 3}
+  poolKey: Enemy_Basic
