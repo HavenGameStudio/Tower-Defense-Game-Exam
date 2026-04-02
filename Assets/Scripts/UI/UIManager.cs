@@ -24,7 +24,8 @@ namespace TowerDefense.UI
 
         private void OnDestroy()
         {
-            if (GameManager.Instance == null) return;
+            if (!GameManager.HasInstance) return;
+            
             GameManager.Instance.OnScoreChanged -= UpdateScore;
             GameManager.Instance.OnGameOver -= ShowGameOver;
         }
