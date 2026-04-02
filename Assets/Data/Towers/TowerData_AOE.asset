@@ -15,5 +15,5 @@ MonoBehaviour:
   damage: 20
   fireRate: 1
   range: 5
-  aoeRadius: 2
+  aoeRadius: 5
   maxTargets: 1

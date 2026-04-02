@@ -8,6 +8,8 @@ namespace TowerDefense.Towers
     {
         [Header("Config")] 
         [SerializeField] protected TowerData data;
+        
+        [SerializeField] protected LayerMask enemyLayer;
 
         private float _fireCooldown;
 
@@ -39,7 +41,7 @@ namespace TowerDefense.Towers
         {
             target = null;
 
-            var hits = Physics2D.OverlapCircleAll(transform.position, data.range);
+            var hits = Physics2D.OverlapCircleAll(transform.position, data.range, enemyLayer);
 
             foreach (var hit in hits)
             {

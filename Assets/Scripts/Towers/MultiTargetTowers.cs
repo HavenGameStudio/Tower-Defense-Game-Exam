@@ -6,31 +6,43 @@ namespace TowerDefense.Towers
 {
     public class MultiTargetTower : Tower
     {
-        [Header("VFX")]
+        [Header("Projectile")]
         [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private float projectileSpeed = 10f;
 
         protected override void Fire(IDamageable primaryTarget)
         {
+            if (projectilePrefab == null) return;
+
             var targets = GetTargetsInRange();
 
             foreach (var target in targets)
-            {
-                target.TakeDamage(data.damage);
+                SpawnProjectile(target);
+        }
 
-                // VFX per target
-                if (projectilePrefab != null)
-                {
-                    var targetMono = target as MonoBehaviour;
-                    if (targetMono != null)
-                        Destroy(Instantiate(projectilePrefab, targetMono.transform.position, Quaternion.identity), 1f);
-                }
+        private void SpawnProjectile(IDamageable target)
+        {
+            var go         = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            var projectile = go.GetComponent<Projectile>();
+
+            if (projectile == null)
+            {
+                Debug.LogError("Projectile prefab is missing a Projectile component.");
+                Destroy(go);
+                return;
             }
+
+            projectile.Initialize(
+                target: target,
+                damage: data.damage,
+                speed:  projectileSpeed
+            );
         }
 
         private List<IDamageable> GetTargetsInRange()
         {
             var targets = new List<IDamageable>();
-            var hits    = Physics2D.OverlapCircleAll(transform.position, data.range);
+            var hits    = Physics2D.OverlapCircleAll(transform.position, data.range, enemyLayer);
 
             foreach (var hit in hits)
             {

@@ -1,42 +1,41 @@
-using TowerDefense.Combat;
 using UnityEngine;
+using TowerDefense.Combat;
 
 namespace TowerDefense.Towers
 {
     public class AOETower : Tower
     {
-        [Header("VFX")] [SerializeField] private GameObject projectilePrefab;
+        [Header("Projectile")]
+        [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private float projectileSpeed = 8f;
 
         protected override void Fire(IDamageable primaryTarget)
         {
-            var primaryMono = primaryTarget as MonoBehaviour;
-            if (primaryMono == null) return;
+            if (projectilePrefab == null) return;
 
-            //Damage primary target
-            primaryTarget.TakeDamage(data.damage);
+            var go         = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            var projectile = go.GetComponent<Projectile>();
 
-            //Splash: hit everyting in aoeRadius around primary target
-            var hits = Physics2D.OverlapCircleAll(primaryMono.transform.position, data.aoeRadius);
-
-            foreach (var hit in hits)
+            if (projectile == null)
             {
-                var damageable = hit.GetComponent<IDamageable>();
-                if (damageable != null && !damageable.IsDead && damageable != primaryTarget)
-                {
-                    damageable.TakeDamage(data.damage * 0.5f);
-                }
+                Debug.LogError("Projectile prefab is missing a Projectile component.");
+                Destroy(go);
+                return;
             }
 
-            //VFX
-            if (projectilePrefab != null)
-                Destroy(Instantiate(projectilePrefab, primaryMono.transform.position, Quaternion.identity), 1f);
+            projectile.Initialize(
+                target:     primaryTarget,
+                damage:     data.damage,
+                speed:      projectileSpeed,
+                isAOE:      true,
+                aoeRadius:  data.aoeRadius,
+                enemyLayer: enemyLayer
+            );
         }
 
         private void OnDrawGizmosSelected()
         {
             if (data == null) return;
-
-            //AOE splash radius preview around tower center (approximate)
             Gizmos.color = new Color(1f, 0.5f, 0f, 0.4f);
             Gizmos.DrawWireSphere(transform.position, data.aoeRadius);
         }
