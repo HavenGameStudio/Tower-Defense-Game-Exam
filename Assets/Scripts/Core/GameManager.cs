@@ -53,6 +53,9 @@ namespace TowerDefense.Core
             if (State == GameState.Lost) return;
 
             State = GameState.Lost;
+            
+            Time.timeScale = 0f;
+            
             enemySpawner.StopSpawning();
             OnGameOver?.Invoke();
         }

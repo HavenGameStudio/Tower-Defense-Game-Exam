@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using TowerDefense.Combat;
+using TowerDefense.Core;
 
 namespace TowerDefense.Enemies
 {
@@ -90,6 +91,9 @@ namespace TowerDefense.Enemies
 
             if (Data.deathVFXPrefab != null)
                 Destroy(Instantiate(Data.deathVFXPrefab, transform.position, Quaternion.identity), 2f);
+
+            // Report kill to GameManager for scoring
+            GameManager.Instance?.RegisterKill(Data.scoreValue);
 
             OnDeath?.Invoke(this);
             Destroy(gameObject);
